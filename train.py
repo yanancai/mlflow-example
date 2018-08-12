@@ -3,8 +3,7 @@ import mlflow
 mlflow_server = '52.179.167.153'
 mlflow_tracking_URI = 'http://' + mlflow_server + ':5000'
 print ("MLflow Tracking URI: %s" % (mlflow_tracking_URI))
-#mlflow.set_tracking_uri(mlflow_tracking_URI)
-mlflow.set_tracking_uri("file://D:/Source/mlflow-example")
+mlflow.set_tracking_uri(mlflow_tracking_URI)
 
 import os
 import warnings
@@ -12,9 +11,13 @@ import sys
 
 import pandas as pd
 import numpy as np
+from itertools import cycle
+import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet
+from sklearn.linear_model import lasso_path, enet_path
+from sklearn import datasets
 
 import mlflow.sklearn
 
@@ -89,16 +92,6 @@ def train_diabetes(data, in_alpha, in_l1_ratio):
     test_x = test.drop(["progression"], axis=1)
     train_y = train[["progression"]]
     test_y = test[["progression"]]
-
-    if float(in_alpha) is None:
-        alpha = 0.05
-    else:
-        alpha = float(in_alpha)
-    
-    if float(in_l1_ratio) is None:
-        l1_ratio = 0.05
-    else:
-        l1_ratio = float(in_l1_ratio)
   
     # Start an MLflow run; the "with" keyword ensures we'll close the run even if this cell crashes
     with mlflow.start_run():
@@ -133,8 +126,7 @@ def train_diabetes(data, in_alpha, in_l1_ratio):
     # Log artifacts (output files)
     mlflow.log_artifact("ElasticNet-paths.png")
 
-def main():
-    loop = int(sys.argv[1]) if len(sys.argv) > 1 else 10  
-    for alpha in range(loop):
-        for l1_ratio in range(loop):
-            train_diabetes(data, alpha/loop, l1_ratio/loop)
+if __name__ == "__main__":
+    alpha = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
+    l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
+    train_diabetes(data, alpha, l1_ratio)
