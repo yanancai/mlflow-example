@@ -8,3 +8,4 @@ dependencies:
   - pip:
     - mlflow
     - azure-storage-blob
+    - matplotlib
