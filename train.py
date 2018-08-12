@@ -1,9 +1,9 @@
 # Set up MLflow track server
 import mlflow
-mlflow_server = '52.179.167.153'
-mlflow_tracking_URI = 'http://' + mlflow_server + ':5000'
-print ("MLflow Tracking URI: %s" % (mlflow_tracking_URI))
-mlflow.set_tracking_uri(mlflow_tracking_URI)
+#mlflow_server = '52.179.167.153'
+#mlflow_tracking_URI = 'http://' + mlflow_server + ':5000'
+#print ("MLflow Tracking URI: %s" % (mlflow_tracking_URI))
+#mlflow.set_tracking_uri(mlflow_tracking_URI)
 
 import os
 import warnings
